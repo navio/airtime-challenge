@@ -1,0 +1,18 @@
+{
+  "name": "labyrinth",
+  "version": "1.0.0",
+  "description": "Airtime Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "AirTime.com"
+  ],
+  "author": "Alberto Navarro",
+  "license": "MIT",
+  "dependencies": {
+    "http": "0.0.0",
+    "node-rest-client": "~1.4.3"
+  }
+}
