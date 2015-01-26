@@ -1,18 +1,15 @@
 {
   "name": "labyrinth",
   "version": "1.0.0",
-  "description": "Airtime Challenge",
+  "description": "Airtime Challenge, http://challenge2.airtime.com:7182/",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
-    "AirTime.com"
+    "AirTime.com", "async", "Challenges"
   ],
-  "author": "Alberto Navarro",
+  "author": "Alberto Navarro, alnavarro@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "http": "0.0.0",
-    "node-rest-client": "~1.4.3"
+    "async": "^0.9.0",
+    "sync-request": "^2.0.0"
   }
 }

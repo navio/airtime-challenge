@@ -7,7 +7,7 @@ function(user,url,port){
     if(!port) port = 80; // default
 
     var get_header = { 'X-Labyrinth-Email': user, };
-    var post_header = {'Content-Type': 'text/json', 'X-Labyrinth-Email': user };
+    var post_header = { 'X-Labyrinth-Email': user, 'Content-Type': 'text/json', };
 
     var path = url + ':' + port + '/';
 
@@ -37,8 +37,9 @@ function(user,url,port){
 
     var report =
     function report(message,rooms){
-      var res = request('POST', path+'report',{ headers: post_header, form:{roomIds: rooms , challenge: message } });
-      return JSON.parse( res.getBody('UTF-8') );
+      var body = JSON.stringify({roomIds: rooms , challenge: message });
+      var res = request('POST', path+'report',{ headers: post_header, body: body });
+      return res.getBody('UTF-8');
     }
 
   return {
