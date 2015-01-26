@@ -1,4 +1,4 @@
-  var api   = require('./runner')('alnavarro@gmail.com','http://challenge2.airtime.com',7182);
+  var api   = require('./labyrinth')('alnavarro@gmail.com','http://challenge2.airtime.com',7182);
   var async = require('async');
 
   var messages = [], report  = [];
