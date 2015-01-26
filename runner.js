@@ -1,49 +1,57 @@
-var Client = require('node-rest-client').Client;
- 
+var request = require('sync-request'); // To make it simple to read, slower.
+
 module.exports =
- 
+
 function(user,url,port){
-  if(!port) port = 80; // default
-  var header = { 'X-Labyrinth-Email': user, };
-  var path = url + ':' + port + '/';
- 
-  client = new Client();
- 
-  client.registerMethod("start", path+"start", "GET");
- 
-  client.registerMethod("exits", path+"exits?roomId=${roomId}", "GET");
- 
-  client.registerMethod("move", path+"move?roomId=${roomID}&exit=${exit}", "GET");
- 
-  client.registerMethod("wall", path+"wall?roomId=${wall}", "GET");
- 
- 
- 
-    var start = function start(fn){
-      client.methods.start({ headers: header, },fn);
+
+    if(!port) port = 80; // default
+
+    var get_header = { 'X-Labyrinth-Email': user, };
+    var post_header = {'Content-Type': 'text/json', 'X-Labyrinth-Email': user };
+
+    var path = url + ':' + port + '/';
+
+    var start =
+    function start(){
+      var res = request('GET', path+'start',{ headers:get_header });
+      return JSON.parse(res.getBody('UTF-8')).roomId;
     }
- 
-    var exits = function exits(room,fn){
-      client.methods.start({ headers: header, path: {"roomId":room} },fn);
+
+    var exits =
+    function exits(room){
+      var res = request('GET', path+'exits?roomId='+room ,{ headers:get_header });
+      return JSON.parse( res.getBody('UTF-8') ).exits;
     }
- 
-    var move = function move(room,exit,fn){
-      client.methods.start({ headers: header, path: {"roomId":room,"exit":exit } },fn);
+
+    var move =
+    function move(room,exit){
+      var res = request('GET', path+'move?roomId='+room+'&exit='+exit ,{ headers:get_header });
+      return JSON.parse( res.getBody('UTF-8') ).roomId;
     }
- 
-    var wall = function wall(wall,fn){
-      client.methods.start({ headers: header, path: {"wall":wall } },fn);
+
+    var wall =
+    function wall(wall){
+      var res = request('GET', path+'wall?roomId='+wall ,{ headers:get_header });
+      return JSON.parse( res.getBody('UTF-8') );
     }
- 
+
+    var report =
+    function report(message,rooms){
+      var res = request('POST', path+'report',{ headers: post_header, form:{roomIds: rooms , challenge: message } });
+      return JSON.parse( res.getBody('UTF-8') );
+    }
+
   return {
- 
-    'start': start ,
- 
-    'exits': exits,
- 
-    'move': move,
- 
-    'wall': wall
+
+    'getStart': start ,
+
+    'getExits': exits,
+
+    'moveTo': move,
+
+    'readContent': wall,
+
+    'submitReport': report,
   }
- 
+
 };
